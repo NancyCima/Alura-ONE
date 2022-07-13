@@ -1,0 +1,37 @@
+<!-- This program consists of a simple game where you can draw little circles
+    by clicking on the grey canvas. Besides, you can change the color of the
+    dots between blue, red and green by right clicking -->
+
+<canvas width="600" height="400"> </canvas>
+
+<script>
+    var screen = document.querySelector("canvas");
+    var pincel = screen.getContext("2d");
+    pincel.fillStyle = "grey";
+    pincel.fillRect(0,0,600,400);
+    var colors = ["blue", "red", "green"];
+    var colorIndex = 0; // The first color is blue
+
+    function drawCircle(e){
+        var x = e.pageX - screen.offsetLeft;
+        var y = e.pageY - screen.offsetTop;
+        pincel.fillStyle = colors[colorIndex];
+        pincel.beginPath();
+        pincel.arc(x,y,10,0,2*3.14);
+        pincel.fill();
+        console.log(x + "," + y);
+    }
+
+    screen.onclick = drawCircle;
+
+    function changeColor() {
+        colorIndex++;
+        if(colorIndex>= colors.length) {
+             colorIndex = 0; //It comes back to being blue
+        }
+        return false;
+    }
+
+    screen.oncontextmenu = changeColor;
+
+</script>
