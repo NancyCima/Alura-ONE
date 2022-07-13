@@ -1,0 +1,31 @@
+<meta charset="UTF-8">
+
+<h1> AÑOS DEL MUNDIAL DE LA FIFA </h1>
+
+<script>
+
+	function print(sentence) {
+
+		document.write(sentence);
+		document.write("<br>");
+		document.write("<br>");
+		document.write("<br>");
+
+	}
+
+	var worldCupYear = 1930;
+	var limit = parseInt(prompt("Ingrese hasta que año le gustaria conocer las fechas del mundial"))
+
+
+	while (worldCupYear <= limit) {
+
+		print("Hubo mundial de la FIFA en el año " + worldCupYear);
+		worldCupYear = worldCupYear + 4;
+
+	}
+
+	print("fin")
+
+</script>
+
+
