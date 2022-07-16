@@ -1,0 +1,36 @@
+<canvas width="600" height="400"> </canvas>
+
+<script>
+	var screen = document.querySelector("canvas");
+	var pincel = screen.getContext("2d");
+	pincel.fillStyle = "white";
+	pincel.fillRect(0,0,600,400);
+
+	function drawCircle(x,y,radio){
+		pincel.fillStyle = "purple";
+		pincel.beginPath();
+		pincel.arc(x,y,radio,0,2*Math.PI);
+		pincel.fill();
+	}
+
+	function cleanScreen(){
+		pincel.clearRect(0,0,600,400);
+	}
+
+	var x = 0
+	var direction = 1
+
+	function updateScreen(){
+		cleanScreen();
+		if(x > 595){         // 595 is used instead of 600 to prevent the circle from disappearing completely from the screen.
+            direction = -1;  // The same goes for 5 instead 0.
+        }else if(x < 5){
+            direction = 1;
+        }
+		drawCircle(x,20,10);
+		x = x+direction;
+	}
+
+	setInterval(updateScreen,100);
+
+</script>
