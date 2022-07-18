@@ -12,19 +12,65 @@
     pincel.fillRect(0, 0, 600, 400);
 
     var draw = false;
+    var squareSize = 50;
+    var brushColor = 'blue';
 
-    function drawCircle(event) {
+    function drawCircle(x, y, brushColor) {
         if(draw) {
-            var x = event.pageX - screen.offsetLeft;
-            var y = event.pageY - screen.offsetTop;
-            pincel.fillStyle = 'blue';
+            pincel.fillStyle = brushColor;
             pincel.beginPath();
             pincel.arc(x, y, 5, 0, 2 * 3.14);
             pincel.fill();
         }
     }
 
-    screen.onmousemove = drawCircle;
+    function drawSquare(x, y, size, color) {
+        pincel.fillStyle = color;
+        pincel.fillRect(x, y, size, size);
+        pincel.fill();
+    }
+
+    function drawColorPalette() {
+        drawSquare(0, 0, squareSize, 'blue');
+        drawSquare(squareSize, 0, squareSize, 'red');
+        drawSquare(2*squareSize, 0, squareSize, 'yellow');
+    }
+
+    function catchMovement(event){
+        var x = event.pageX - screen.offsetLeft;
+        var y = event.pageY - screen.offsetTop;
+
+        if (drawingArea(x,y)){
+            drawCircle(x,y,brushColor);
+        }
+    }
+
+    function selectColor(event) {
+        var x = event.pageX - screen.offsetLeft;
+        var y = event.pageY - screen.offsetTop;
+
+        //In this function, every condition changes the color of the variable brushColor.
+        //First, we have the condition for the Y axis as it's valid for the whole color palette.
+        if (y > 0 && y < squareSize) {
+            if(x > 0 && x < squareSize) {
+                brushColor = "blue";
+            } else if (x > squareSize && x < (2*squareSize)) {
+                brushColor = "red";
+            } else if(x > (2*squareSize) && x < (3*squareSize)) {
+                brushColor = "yellow";
+            }
+        }
+    }
+
+    //The user cannot draw over the color palette
+    function drawingArea (x, y){
+        if ((x >= 0 && x < (3*squareSize+5)) &&
+            (y >=0 && y < (squareSize+5))) {
+            return false;
+        } else{
+            return true;
+        }
+    }
 
     function drawEnabled() {
         draw = true;
@@ -34,8 +80,14 @@
         draw = false;
     }
 
+    screen.onmousemove = catchMovement;
+
     screen.onmousedown = drawEnabled;
 
     screen.onmouseup = drawDisabled;
+
+    drawColorPalette();
+
+    screen.onclick = selectColor;
 
 </script>
